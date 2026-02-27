@@ -91,7 +91,8 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
   if command -v pnpm &>/dev/null; then
     # create-next-app은 기존 파일이 있으면 거부하므로 임시 이동
     TMPDIR_BACKUP=$(mktemp -d)
-    for item in .claude .editorconfig .env.example .env.local .github CLAUDE.md README.md .gitignore setup.sh; do
+    BACKUP_ITEMS=(.claude .editorconfig .env.example .env.local .github CLAUDE.md README.md .gitignore setup.sh)
+    for item in "${BACKUP_ITEMS[@]}"; do
       [ -e "$item" ] && mv "$item" "$TMPDIR_BACKUP/"
     done
 
@@ -99,10 +100,10 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
     NEXT_RESULT=$?
 
     # 원본 파일 복원 (Next.js가 만든 README.md, .gitignore 덮어쓰기)
-    for item in "$TMPDIR_BACKUP"/*  "$TMPDIR_BACKUP"/.*; do
-      [ -e "$item" ] && mv -f "$item" . 2>/dev/null
+    for item in "${BACKUP_ITEMS[@]}"; do
+      [ -e "$TMPDIR_BACKUP/$item" ] && mv -f "$TMPDIR_BACKUP/$item" .
     done
-    rmdir "$TMPDIR_BACKUP" 2>/dev/null
+    rm -rf "$TMPDIR_BACKUP"
 
     if [ "$NEXT_RESULT" -ne 0 ]; then
       echo "⚠️  Next.js 생성 실패. 수동으로 실행하세요:"
