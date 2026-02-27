@@ -5,18 +5,34 @@
 ## Setup
 
 ```bash
-# 1. 초기 설정 (템플릿 변수 치환)
 ./setup.sh
+```
 
-# 2. (setup.sh에서 건너뛴 경우) Next.js 프로젝트 생성
+`setup.sh` 실행 시 자동 완료되는 항목:
+
+- CLAUDE.md 자동 생성 (프로젝트 이름/설명 포함)
+- README.md 자동 생성 (셋업 가이드 + 환경변수 섹션)
+- .gitignore 자동 생성 (.env, node_modules 등 차단)
+- .env.local 생성 (.env.example 기반, 값만 채우면 됨)
+- Claude Code deny 규칙 11개 (위험 명령 자동 차단)
+- Claude Code hooks 2개 (lint 체크 + .env 커밋 방지)
+- Claude Code commands 4개 (/dev, /build, /lint, /setup-env)
+- 추천 플러그인 자동 설치 (bkit, context7, security-guidance)
+- Next.js 프로젝트 스캐폴딩 (TypeScript + Tailwind + App Router, 선택)
+- .editorconfig (에디터 간 코딩 스타일 통일)
+- PR 템플릿 (PR 작성 양식 자동 적용)
+- CI 파이프라인 (push/PR 시 lint + build 자동 검증)
+- 템플릿 레포 보호 (clone 시 remote 감지 + 제거 안내)
+
+setup.sh에서 건너뛴 항목이 있다면:
+
+```bash
+# Next.js 프로젝트 생성
 pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --use-pnpm
 
-# 3. 환경변수 설정
+# 환경변수 설정
 cp .env.example .env.local
 # .env.local에 필요한 값 채우기
-
-# 4. 개발 시작
-pnpm dev
 ```
 
 ## Quick Start
