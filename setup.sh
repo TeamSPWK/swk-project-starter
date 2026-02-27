@@ -37,6 +37,24 @@ echo ""
 echo "🔧 설정을 적용합니다..."
 echo ""
 
+# ─── 1.5 템플릿 레포 remote 확인 ───
+
+ORIGIN_URL=$(git remote get-url origin 2>/dev/null || echo "")
+if [[ "$ORIGIN_URL" == *"swk-project-starter"* ]]; then
+  echo "⚠️  origin이 템플릿 레포(swk-project-starter)를 가리키고 있습니다."
+  echo "   clone이 아닌 'Use this template'으로 새 레포를 만들어야 합니다."
+  echo ""
+  read -rp "remote origin을 제거하시겠습니까? (Y/n): " REMOVE_REMOTE
+  if [[ ! "$REMOVE_REMOTE" =~ ^[Nn]$ ]]; then
+    git remote remove origin
+    echo "  ✅ origin 제거 완료. 새 remote를 설정하세요:"
+    echo "     git remote add origin https://github.com/TeamSPWK/$PROJECT_NAME.git"
+  else
+    echo "  ⚠️  주의: 이 상태로 push하면 템플릿 레포가 수정됩니다."
+  fi
+  echo ""
+fi
+
 # ─── 2. .template → 실제 파일 (sed 치환) ───
 
 for template in CLAUDE.md.template README.md.template .gitignore.template; do
