@@ -11,13 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Check if project is initialized
+        id: check
+        run: |
+          if [ ! -f "package.json" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "⏭️ package.json 없음 — setup.sh 실행 전 템플릿 상태. CI 스킵."
+          fi
+
       - uses: pnpm/action-setup@v4
+        if: steps.check.outputs.skip != 'true'
         with:
           version: 9
       - uses: actions/setup-node@v4
+        if: steps.check.outputs.skip != 'true'
         with:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        if: steps.check.outputs.skip != 'true'
       - run: pnpm lint
+        if: steps.check.outputs.skip != 'true'
       - run: pnpm build
+        if: steps.check.outputs.skip != 'true'

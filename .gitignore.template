@@ -5,7 +5,8 @@ dist/
 .env
 .env.local
 .env.*.local
-.secret/
-*.secret
+!.env.example
 .DS_Store
 *.tsbuildinfo
+.vercel
+coverage/

@@ -1,0 +1,77 @@
+# {{PROJECT_NAME}}
+
+{{PROJECT_DESCRIPTION}}
+
+## Language
+
+- Claude는 사용자에게 항상 **한국어**로 응답한다.
+
+## Tech Stack
+
+| 영역 | 기술 |
+|------|------|
+| Frontend | Next.js 15 (App Router), React 19, TypeScript 5 |
+| Styling | Tailwind CSS 4, Lucide React |
+| Package | pnpm |
+| CI/CD | GitHub Actions |
+
+## Principles
+
+- **정확도 > 속도**: 추측하지 않는다. 에러 메시지를 정확히 읽는다
+- **파괴적 작업 전 확인**: DB 변경, 리소스 삭제 등은 반드시 사용자 확인 후 실행
+- **코드 스타일은 린터에 위임**: ESLint + Prettier 설정을 따른다
+- **3개 이상 파일 수정 시 계획 먼저 제시**
+
+## Environment Variables
+
+```bash
+# .env.example → .env.local 복사 후 값 채우기
+cp .env.example .env.local
+```
+
+`.env.local`은 git에 커밋되지 않습니다. `.env.example`에 키 목록만 관리합니다.
+
+## Project Structure
+
+```
+{{PROJECT_NAME}}/
+├── CLAUDE.md              # 이 파일
+├── src/                   # 소스 코드
+├── .env.example           # 환경변수 템플릿 (git 커밋 대상)
+├── .claude/               # Claude Code 설정
+│   ├── rules/             # 경로별 자동 규칙
+│   ├── hooks/             # 자동 검증 훅
+│   └── commands/          # 커스텀 슬래시 명령어
+└── .github/workflows/     # CI/CD
+```
+
+## Commands
+
+| 명령어 | 설명 |
+|--------|------|
+| `/dev` | 개발 서버 시작 |
+| `/build` | 프로덕션 빌드 + 타입 체크 |
+| `/lint` | ESLint + Prettier 검사 |
+| `/setup-env` | 환경변수 초기 설정 가이드 |
+
+## Git Convention
+
+```
+feat: 새 기능 추가  |  fix: 버그 수정  |  update: 기존 기능 개선
+refactor: 리팩토링  |  chore: 설정/기타  |  docs: 문서 수정
+```
+
+## Critical Rules
+
+> 위반 시 사고 가능. 반드시 지킨다.
+
+1. **`.env`, `.env.local` 절대 git 커밋 금지** — `.env.example`만 커밋
+2. **프로덕션 DB에 직접 쿼리 금지** (읽기 전용도 확인 후)
+3. **main 브랜치 force push 금지**
+4. **파괴적 작업(삭제, 리셋 등) 전 반드시 사용자 확인**
+
+## Known Mistakes
+
+실수를 반복하지 않기 위한 기록.
+
+- (프로젝트 진행하면서 추가)

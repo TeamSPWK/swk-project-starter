@@ -1,0 +1,68 @@
+# {{PROJECT_NAME}}
+
+{{PROJECT_DESCRIPTION}}
+
+## Setup
+
+```bash
+# 1. 초기 설정 (템플릿 변수 치환)
+./setup.sh
+
+# 2. (setup.sh에서 건너뛴 경우) Next.js 프로젝트 생성
+pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --use-pnpm
+
+# 3. 환경변수 설정
+cp .env.example .env.local
+# .env.local에 필요한 값 채우기
+
+# 4. 개발 시작
+pnpm dev
+```
+
+## Quick Start
+
+```bash
+pnpm install
+pnpm dev
+```
+
+## Tech Stack
+
+- Next.js 15 (App Router)
+- React 19
+- TypeScript 5
+- Tailwind CSS 4
+- pnpm
+
+## Scripts
+
+| 명령어 | 설명 |
+|--------|------|
+| `pnpm dev` | 개발 서버 (http://localhost:3000) |
+| `pnpm build` | 프로덕션 빌드 |
+| `pnpm lint` | ESLint 검사 |
+| `pnpm format` | Prettier 포맷 |
+
+## Environment Variables
+
+환경변수는 `.env.local`에 저장하며, **절대 git에 커밋하지 않습니다.**
+
+`.env.example`에 필요한 키 목록을 관리합니다:
+
+```bash
+# .env.example을 복사해서 시작
+cp .env.example .env.local
+```
+
+## Claude Code
+
+이 프로젝트는 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 최적화 설정이 포함되어 있습니다.
+
+- `CLAUDE.md` - 프로젝트 컨텍스트
+- `.claude/rules/` - 경로별 자동 규칙
+- `.claude/hooks/` - 자동 검증 (TypeScript 문법, .env 커밋 방지)
+- `.claude/commands/` - `/dev`, `/build`, `/lint`, `/setup-env`
+
+## License
+
+Private - TeamSPWK
