@@ -91,7 +91,7 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
   if command -v pnpm &>/dev/null; then
     # create-next-app은 기존 파일이 있으면 거부하므로 임시 이동
     TMPDIR_BACKUP=$(mktemp -d)
-    for item in .claude .env.example .env.local .github CLAUDE.md README.md .gitignore setup.sh; do
+    for item in .claude .editorconfig .env.example .env.local .github CLAUDE.md README.md .gitignore setup.sh; do
       [ -e "$item" ] && mv "$item" "$TMPDIR_BACKUP/"
     done
 
