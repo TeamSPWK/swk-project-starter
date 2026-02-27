@@ -114,7 +114,42 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
   fi
 fi
 
-# ─── 6. setup.sh 자체 삭제 여부 ───
+# ─── 6. Claude Code 플러그인 설치 (선택) ───
+
+echo ""
+read -rp "Claude Code 추천 플러그인을 설치하시겠습니까? (Y/n): " INSTALL_PLUGINS
+
+if [[ ! "$INSTALL_PLUGINS" =~ ^[Nn]$ ]]; then
+  if command -v claude &>/dev/null; then
+    echo ""
+    echo "📦 플러그인 설치 중..."
+
+    # bkit - PDCA 방법론 + 개발 파이프라인
+    echo "  → bkit (개발 방법론)"
+    claude plugin marketplace add popup-studio-ai/bkit-claude-code 2>/dev/null && \
+    claude plugin install bkit 2>/dev/null && echo "    ✓ bkit" || echo "    ✗ bkit 설치 실패 (수동: /plugin install bkit)"
+
+    # context7 - 라이브러리 최신 문서 참조
+    echo "  → context7 (라이브러리 문서)"
+    claude plugin install context7@claude-plugins-official 2>/dev/null && echo "    ✓ context7" || echo "    ✗ context7 설치 실패 (수동: /plugin install context7@claude-plugins-official)"
+
+    # security-guidance - 보안 취약점 자동 스캔
+    echo "  → security-guidance (보안 스캔)"
+    claude plugin install security-guidance@claude-plugins-official 2>/dev/null && echo "    ✓ security-guidance" || echo "    ✗ security-guidance 설치 실패 (수동: /plugin install security-guidance@claude-plugins-official)"
+
+    echo ""
+  else
+    echo ""
+    echo "⚠️  Claude Code가 설치되어 있지 않습니다. 나중에 수동 설치하세요:"
+    echo "  /plugin marketplace add popup-studio-ai/bkit-claude-code"
+    echo "  /plugin install bkit"
+    echo "  /plugin install context7@claude-plugins-official"
+    echo "  /plugin install security-guidance@claude-plugins-official"
+    echo ""
+  fi
+fi
+
+# ─── 7. setup.sh 자체 삭제 여부 ───
 
 echo ""
 read -rp "setup.sh를 삭제하시겠습니까? (초기 설정 완료 후 불필요) (Y/n): " DELETE_SETUP
@@ -124,7 +159,7 @@ if [[ ! "$DELETE_SETUP" =~ ^[Nn]$ ]]; then
   echo "  🗑️  setup.sh 삭제 완료"
 fi
 
-# ─── 7. 결과 요약 ───
+# ─── 8. 결과 요약 ───
 
 echo ""
 echo "=========================================="
