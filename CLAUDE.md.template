@@ -22,27 +22,19 @@
 - **코드 스타일은 린터에 위임**: ESLint + Prettier 설정을 따른다
 - **3개 이상 파일 수정 시 계획 먼저 제시**
 
-## Environment Variables
-
-```bash
-# .env.example → .env.local 복사 후 값 채우기
-cp .env.example .env.local
-```
-
-`.env.local`은 git에 커밋되지 않습니다. `.env.example`에 키 목록만 관리합니다.
-
 ## Project Structure
 
 ```
 {{PROJECT_NAME}}/
 ├── CLAUDE.md              # 이 파일
-├── src/                   # 소스 코드
+├── src/                   # 소스 코드 (App Router)
 ├── .env.example           # 환경변수 템플릿 (git 커밋 대상)
-├── .claude/               # Claude Code 설정
+├── .claude/
+│   ├── settings.json      # deny 규칙 11개
 │   ├── rules/             # 경로별 자동 규칙
-│   ├── hooks/             # 자동 검증 훅
-│   └── commands/          # 커스텀 슬래시 명령어
-└── .github/workflows/     # CI/CD
+│   ├── hooks/             # 자동 검증 (lint, .env 커밋 방지)
+│   └── commands/          # /dev, /build, /lint, /setup-env
+└── .github/workflows/     # CI (lint + build 자동화)
 ```
 
 ## Commands
@@ -54,12 +46,16 @@ cp .env.example .env.local
 | `/lint` | ESLint + Prettier 검사 |
 | `/setup-env` | 환경변수 초기 설정 가이드 |
 
+## Coding Rules
+
+- Server Components 우선. `"use client"`는 상호작용 필요 시에만
+- 스타일: Tailwind CSS만 사용. 인라인 style 금지
+- 새 패키지 설치 전 이유 + 대안 설명
+- 컴포넌트는 함수 선언(function) 방식
+
 ## Git Convention
 
-```
-feat: 새 기능 추가  |  fix: 버그 수정  |  update: 기존 기능 개선
-refactor: 리팩토링  |  chore: 설정/기타  |  docs: 문서 수정
-```
+`feat:` 새 기능 | `fix:` 버그 | `update:` 기존 개선 | `refactor:` 리팩토링 | `chore:` 설정 | `docs:` 문서
 
 ## Critical Rules
 
@@ -72,6 +68,20 @@ refactor: 리팩토링  |  chore: 설정/기타  |  docs: 문서 수정
 
 ## Known Mistakes
 
-실수를 반복하지 않기 위한 기록.
+실수를 반복하지 않기 위한 기록. (실제 코딩 실수만 기록)
 
 - (프로젝트 진행하면서 추가)
+
+## Environment
+
+```bash
+cp .env.example .env.local  # 복사 후 값 채우기
+```
+
+`.env.local`은 git에 커밋되지 않습니다. `.env.example`에 키 목록만 관리합니다.
+
+## References
+
+- `.claude/rules/src.md` — 소스 코드 규칙
+- `.claude/settings.json` — deny 규칙 11개
+- `.github/workflows/ci.yml` — CI 파이프라인
