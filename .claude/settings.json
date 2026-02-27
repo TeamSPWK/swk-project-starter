@@ -7,7 +7,17 @@
       "Bash(*cat .env*)",
       "Bash(git push --force*)",
       "Bash(git reset --hard*)",
-      "Bash(*--no-verify*)"
+      "Bash(*--no-verify*)",
+      "Bash(aws * create-*)",
+      "Bash(aws * delete-*)",
+      "Bash(aws * terminate-*)",
+      "Bash(aws * modify-*)",
+      "Bash(aws s3 rm *)",
+      "Bash(aws s3 rb *)",
+      "Bash(aws iam *)",
+      "Bash(aws rds *)",
+      "Bash(ncp_api_call*DELETE*)",
+      "Bash(prisma migrate deploy*)"
     ]
   },
   "hooks": {
@@ -18,6 +28,15 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/lint-check.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/infra-guard.sh"
           }
         ]
       }
