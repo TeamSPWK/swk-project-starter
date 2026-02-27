@@ -89,10 +89,25 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
   echo ""
   echo "📦 Next.js 프로젝트 생성 중..."
   if command -v pnpm &>/dev/null; then
-    pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack 2>/dev/null || {
+    # create-next-app은 기존 파일이 있으면 거부하므로 임시 이동
+    TMPDIR_BACKUP=$(mktemp -d)
+    for item in .claude .env.example .env.local .github CLAUDE.md README.md .gitignore setup.sh; do
+      [ -e "$item" ] && mv "$item" "$TMPDIR_BACKUP/"
+    done
+
+    pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack 2>/dev/null
+    NEXT_RESULT=$?
+
+    # 원본 파일 복원 (Next.js가 만든 README.md, .gitignore 덮어쓰기)
+    for item in "$TMPDIR_BACKUP"/*  "$TMPDIR_BACKUP"/.*; do
+      [ -e "$item" ] && mv -f "$item" . 2>/dev/null
+    done
+    rmdir "$TMPDIR_BACKUP" 2>/dev/null
+
+    if [ "$NEXT_RESULT" -ne 0 ]; then
       echo "⚠️  Next.js 생성 실패. 수동으로 실행하세요:"
       echo "  pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --use-pnpm"
-    }
+    fi
   else
     echo "⚠️  pnpm이 설치되어 있지 않습니다."
     echo "  npm install -g pnpm 후 다시 시도하세요."
