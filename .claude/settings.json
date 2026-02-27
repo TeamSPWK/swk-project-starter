@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf .)",
+      "Bash(*> .env*)",
+      "Bash(*cat .env*)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(*--no-verify*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/lint-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
