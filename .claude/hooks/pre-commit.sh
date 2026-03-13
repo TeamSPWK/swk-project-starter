@@ -15,7 +15,14 @@ if [[ "$COMMAND" == *"git add"* || "$COMMAND" == *"git commit"* ]]; then
     # .env.example은 허용, 나머지 .env* 파일은 차단
     if [[ "$file" == .env && "$file" != .env.example ]] || \
        [[ "$file" == .env.* && "$file" != .env.example ]]; then
-      BLOCKED="${BLOCKED}\n  - $file"
+      BLOCKED="${BLOCKED}\n  - $file (.env 파일)"
+    # SSH/TLS 키, 인증서, 자격증명 파일 차단
+    elif [[ "$file" == *.pem || "$file" == *.key || "$file" == *.p12 || "$file" == *.pfx ]]; then
+      BLOCKED="${BLOCKED}\n  - $file (키/인증서 파일)"
+    elif [[ "$file" == *id_rsa* || "$file" == *id_ed25519* ]]; then
+      BLOCKED="${BLOCKED}\n  - $file (SSH 개인 키)"
+    elif [[ "$file" == credentials.json || "$file" == *service*account*.json ]]; then
+      BLOCKED="${BLOCKED}\n  - $file (자격증명 JSON)"
     fi
   done <<< "$STAGED"
 
