@@ -14,6 +14,20 @@
       "Bash(*DROP DATABASE*)"
     ]
   },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "bkit@bkit-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "bkit-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "popup-studio-ai/bkit-claude-code"
+      },
+      "autoUpdate": true
+    }
+  },
   "hooks": {
     "PreToolUse": [
       {

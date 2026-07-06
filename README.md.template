@@ -15,9 +15,9 @@
 - .gitignore 자동 생성 (.env, node_modules 등 차단)
 - .env.local 생성 (.env.example 기반, 값만 채우면 됨)
 - Claude Code deny 규칙 11개 (위험 명령 자동 차단)
-- Claude Code hooks 2개 (lint 체크 + .env 커밋 방지)
-- Claude Code commands 4개 (/dev, /build, /lint, /setup-env)
-- 추천 플러그인 자동 설치 (bkit, context7, security-guidance)
+- Claude Code hooks 2개 (타입체크 + .env·시크릿/키 커밋 방지)
+- Claude Code commands 5개 (/dev, /build, /lint, /setup-env, /code-review)
+- 추천 플러그인 선언 (.claude/settings.json — context7·security-guidance·bkit, trust 시 자동설치)
 - Next.js 프로젝트 스캐폴딩 (TypeScript + Tailwind + App Router, 선택)
 - .editorconfig (에디터 간 코딩 스타일 통일)
 - PR 템플릿 (PR 작성 양식 자동 적용)
@@ -44,20 +44,23 @@ pnpm dev
 
 ## Tech Stack
 
-- Next.js 15 (App Router)
-- React 19
-- TypeScript 5
-- Tailwind CSS 4
-- pnpm
+- Next.js (App Router, Turbopack 기본)
+- React
+- TypeScript
+- Tailwind CSS
+- ESLint (flat config)
+- pnpm · Node (LTS)
+
+> 버전 숫자는 고정하지 않습니다 — `create-next-app` 최신 스캐폴딩을 따르며, 정확한 값은 `package.json` 이 정본입니다.
 
 ## Scripts
 
 | 명령어 | 설명 |
 |--------|------|
-| `pnpm dev` | 개발 서버 (http://localhost:3000) |
-| `pnpm build` | 프로덕션 빌드 |
-| `pnpm lint` | ESLint 검사 |
-| `pnpm format` | Prettier 포맷 |
+| `pnpm dev` | 개발 서버 (http://localhost:3000, Turbopack) |
+| `pnpm build` | 프로덕션 빌드 (Turbopack) |
+| `pnpm start` | 프로덕션 서버 실행 |
+| `pnpm lint` | ESLint 검사 (flat config) |
 
 ## Environment Variables
 
@@ -75,9 +78,10 @@ cp .env.example .env.local
 이 프로젝트는 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 최적화 설정이 포함되어 있습니다.
 
 - `CLAUDE.md` - 프로젝트 컨텍스트
+- `.claude/settings.json` - deny 규칙 + 추천 플러그인 선언 (context7·security-guidance·bkit)
 - `.claude/rules/` - 경로별 자동 규칙
-- `.claude/hooks/` - 자동 검증 (TypeScript 문법, .env 커밋 방지)
-- `.claude/commands/` - `/dev`, `/build`, `/lint`, `/setup-env`
+- `.claude/hooks/` - 자동 검증 (TypeScript 타입체크, .env·시크릿 커밋 방지)
+- `.claude/commands/` - `/dev`, `/build`, `/lint`, `/setup-env`, `/code-review`
 
 ## License
 

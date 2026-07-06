@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check if project is initialized
         id: check
@@ -20,14 +20,14 @@ jobs:
             echo "⏭️ package.json 없음 — setup.sh 실행 전 템플릿 상태. CI 스킵."
           fi
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         if: steps.check.outputs.skip != 'true'
         with:
-          version: 9
-      - uses: actions/setup-node@v4
+          version: latest
+      - uses: actions/setup-node@v6
         if: steps.check.outputs.skip != 'true'
         with:
-          node-version: 20
+          node-version: lts/*
           cache: pnpm
       - run: pnpm install --frozen-lockfile
         if: steps.check.outputs.skip != 'true'

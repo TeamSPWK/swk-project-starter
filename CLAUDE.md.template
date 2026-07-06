@@ -10,16 +10,19 @@
 
 | 영역 | 기술 |
 |------|------|
-| Frontend | Next.js 15 (App Router), React 19, TypeScript 5 |
-| Styling | Tailwind CSS 4, Lucide React |
-| Package | pnpm |
+| Frontend | Next.js (App Router, Turbopack 기본), React, TypeScript |
+| Styling | Tailwind CSS, Lucide React |
+| Lint | ESLint (flat config, `eslint.config.mjs`) |
+| Runtime | Node (LTS), pnpm |
 | CI/CD | GitHub Actions |
+
+> 버전 숫자는 일부러 고정하지 않는다 — `create-next-app`(항상 최신 스캐폴딩)과 CI(`node lts/*` · `pnpm latest`)가 최신을 따른다. 정확한 값은 `package.json` 이 정본.
 
 ## Principles
 
 - **정확도 > 속도**: 추측하지 않는다. 에러 메시지를 정확히 읽는다
 - **파괴적 작업 전 확인**: DB 변경, 리소스 삭제 등은 반드시 사용자 확인 후 실행
-- **코드 스타일은 린터에 위임**: ESLint + Prettier 설정을 따른다
+- **코드 스타일은 린터에 위임**: ESLint (flat config) 설정을 따른다
 - **3개 이상 파일 수정 시 계획 먼저 제시**
 
 ## Project Structure
@@ -30,10 +33,10 @@
 ├── src/                   # 소스 코드 (App Router)
 ├── .env.example           # 환경변수 템플릿 (git 커밋 대상)
 ├── .claude/
-│   ├── settings.json      # deny 규칙 11개
+│   ├── settings.json      # deny 규칙 11개 + 추천 플러그인 선언
 │   ├── rules/             # 경로별 자동 규칙
-│   ├── hooks/             # 자동 검증 (lint, .env 커밋 방지)
-│   └── commands/          # /dev, /build, /lint, /setup-env
+│   ├── hooks/             # 자동 검증 (lint, .env·시크릿 커밋 방지)
+│   └── commands/          # /dev, /build, /lint, /setup-env, /code-review
 └── .github/workflows/     # CI (lint + build 자동화)
 ```
 
@@ -49,6 +52,7 @@
 ## Coding Rules
 
 - Server Components 우선. `"use client"`는 상호작용 필요 시에만
+- **동적 API는 async** — `params`·`searchParams`·`cookies()`·`headers()`는 `await` 필수 (App Router)
 - 스타일: Tailwind CSS만 사용. 인라인 style 금지
 - 새 패키지 설치 전 이유 + 대안 설명
 - 컴포넌트는 함수 선언(function) 방식
