@@ -96,7 +96,8 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
       [ -e "$item" ] && mv "$item" "$TMPDIR_BACKUP/"
     done
 
-    pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack 2>/dev/null
+    # Next 16: Turbopack이 dev/build 기본 (--no-turbopack 플래그는 제거됨). --yes로 비대화형 보장
+    pnpm create next-app . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --yes 2>/dev/null
     NEXT_RESULT=$?
 
     # 원본 파일 복원 (Next.js가 만든 README.md, .gitignore 덮어쓰기)
@@ -115,40 +116,18 @@ if [[ "$SCAFFOLD" =~ ^[Yy]$ ]]; then
   fi
 fi
 
-# ─── 6. Claude Code 플러그인 설치 (선택) ───
+# ─── 6. Claude Code 추천 플러그인 안내 ───
+#
+# 추천 플러그인은 .claude/settings.json 의 enabledPlugins / extraKnownMarketplaces 에
+# 선언되어 있습니다(git 커밋 대상 → 팀 공유). 워크스페이스를 신뢰(trust)하면
+# `claude` 첫 실행 시 자동 설치됩니다 — 취약한 CLI 설치 스크립트 불필요.
 
 echo ""
-read -rp "Claude Code 추천 플러그인을 설치하시겠습니까? (Y/n): " INSTALL_PLUGINS
-
-if [[ ! "$INSTALL_PLUGINS" =~ ^[Nn]$ ]]; then
-  if command -v claude &>/dev/null; then
-    echo ""
-    echo "📦 플러그인 설치 중..."
-
-    # bkit - PDCA 방법론 + 개발 파이프라인
-    echo "  → bkit (개발 방법론)"
-    claude plugin marketplace add popup-studio-ai/bkit-claude-code 2>/dev/null && \
-    claude plugin install bkit 2>/dev/null && echo "    ✓ bkit" || echo "    ✗ bkit 설치 실패 (수동: /plugin install bkit)"
-
-    # context7 - 라이브러리 최신 문서 참조
-    echo "  → context7 (라이브러리 문서)"
-    claude plugin install context7@claude-plugins-official 2>/dev/null && echo "    ✓ context7" || echo "    ✗ context7 설치 실패 (수동: /plugin install context7@claude-plugins-official)"
-
-    # security-guidance - 보안 취약점 자동 스캔
-    echo "  → security-guidance (보안 스캔)"
-    claude plugin install security-guidance@claude-plugins-official 2>/dev/null && echo "    ✓ security-guidance" || echo "    ✗ security-guidance 설치 실패 (수동: /plugin install security-guidance@claude-plugins-official)"
-
-    echo ""
-  else
-    echo ""
-    echo "⚠️  Claude Code가 설치되어 있지 않습니다. 나중에 수동 설치하세요:"
-    echo "  /plugin marketplace add popup-studio-ai/bkit-claude-code"
-    echo "  /plugin install bkit"
-    echo "  /plugin install context7@claude-plugins-official"
-    echo "  /plugin install security-guidance@claude-plugins-official"
-    echo ""
-  fi
-fi
+echo "🧩 Claude Code 추천 플러그인은 .claude/settings.json 에 선언되어 있습니다:"
+echo "     • context7          — 라이브러리 최신 문서 참조 (claude-plugins-official)"
+echo "     • security-guidance — 코드 작성 중 보안 취약점 자동 스캔 (claude-plugins-official)"
+echo "     • bkit              — PDCA 개발 방법론 (bkit-marketplace)"
+echo "   → 'claude' 첫 실행 시 워크스페이스 trust 후 자동 설치됩니다."
 
 # ─── 7. setup.sh 자체 삭제 여부 ───
 
@@ -181,8 +160,9 @@ echo "  3. Claude Code로 개발 시작:"
 echo "     claude"
 echo ""
 echo "  유용한 명령어:"
-echo "    /dev        - 개발 서버 시작"
-echo "    /build      - 프로덕션 빌드"
-echo "    /lint       - 코드 품질 검사"
-echo "    /setup-env  - 환경변수 설정 가이드"
+echo "    /dev         - 개발 서버 시작"
+echo "    /build       - 프로덕션 빌드"
+echo "    /lint        - 코드 품질 검사"
+echo "    /setup-env   - 환경변수 설정 가이드"
+echo "    /code-review - 코드 단순성 진단 (Rob Pike 원칙)"
 echo ""
