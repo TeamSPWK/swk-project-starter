@@ -10,3 +10,6 @@ dist/
 *.tsbuildinfo
 .vercel
 coverage/
+
+# AI 에이전트 도구 상태 (oh-my-claudecode)
+.omc/
