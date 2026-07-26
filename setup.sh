@@ -87,6 +87,18 @@ for template in AGENTS.md.template CLAUDE.md.template README.md.template .gitign
   fi
 done
 
+# ─── 2.5 템플릿 라이선스 제거 ───
+#
+# "Use this template" 은 파일을 복사하므로 템플릿의 MIT LICENSE 도 따라온다.
+# 그대로 두면 **사내 비공개 프로젝트가 MIT 라이선스를 달고 시작**한다(오공개 위험).
+# → 제거하고, 공개할 프로젝트면 사람이 명시적으로 다시 고르게 한다.
+
+if [ -f LICENSE ] && grep -q 'MIT License' LICENSE && grep -q 'Copyright (c) 2026 SPACEWALK' LICENSE; then
+  rm -f LICENSE
+  echo "  🗑️  템플릿의 MIT LICENSE 제거 — 이 프로젝트는 기본 사내 비공개(proprietary)"
+  echo "       공개할 프로젝트라면 라이선스를 직접 추가하세요."
+fi
+
 # ─── 3. .env.local 생성 ───
 
 if [ -f ".env.example" ] && [ ! -f ".env.local" ]; then
