@@ -11,15 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0 # gitleaks 가 이력을 봐야 한다
 
       # ── 시크릿 스캔은 프로젝트 초기화 여부와 무관하게 항상 돈다 ──
       # AI 도구가 co-author 인 커밋의 시크릿 유출률은 GitHub 평균의 약 2배다.
+      #
+      # ⚠️ gitleaks/gitleaks-action 은 쓰지 않는다 — organization 계정에는 유료 라이선스를
+      #    요구해서 (`missing gitleaks license`) CI 가 무조건 실패한다.
+      #    gitleaks CLI 자체는 MIT 이므로 릴리스 바이너리를 직접 받아 쓴다.
+      #
+      # 범위: 작업 트리(dir) — 매 push 마다 전체 이력을 훑지 않는다.
+      #       전체 이력은 secret-sweep.yml(주간 TruffleHog)이 담당한다.
       - name: Secret scan (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VER=$(curl -fsSL https://api.github.com/repos/gitleaks/gitleaks/releases/latest | jq -r .tag_name)
+          echo "gitleaks $VER"
+          curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/${VER}/gitleaks_${VER#v}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks dir . --redact --no-banner --exit-code 1
 
       - name: Check if project is initialized
         id: check
