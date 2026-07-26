@@ -11,5 +11,8 @@ dist/
 .vercel
 coverage/
 
-# AI 에이전트 도구 상태 (oh-my-claudecode)
-.omc/
+# 테스트 산출물
+playwright-report/
+test-results/
+blob-report/
+.playwright/

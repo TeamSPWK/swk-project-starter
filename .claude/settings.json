@@ -9,9 +9,14 @@
       "Bash(git push*)",
       "Bash(git commit*)",
       "Bash(git reset --hard*)",
+      "Bash(git stash*)",
       "Bash(*--no-verify*)",
       "Bash(*DROP TABLE*)",
-      "Bash(*DROP DATABASE*)"
+      "Bash(*DROP DATABASE*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.pem)",
+      "Read(./**/id_rsa*)"
     ]
   },
   "enabledPlugins": {
@@ -25,28 +30,38 @@
         "source": "github",
         "repo": "popup-studio-ai/bkit-claude-code"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     }
   },
   "hooks": {
-    "PreToolUse": [
+    "PostToolUse": [
       {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/lint-check.sh"
+            "command": "bash .claude/hooks/typecheck.sh"
           }
         ]
       }
     ],
-    "PostToolUse": [
+    "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/pre-commit.sh"
+            "command": "bash .claude/hooks/secret-scan.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/verify-turn.sh"
           }
         ]
       }
