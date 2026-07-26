@@ -85,4 +85,6 @@ cp .env.example .env.local
 
 ## License
 
-Private - TeamSPWK
+**사내 비공개(proprietary) — TeamSPWK.**
+
+이 프로젝트는 `swk-project-standard-starter`(MIT 템플릿)에서 생성됐지만, **템플릿의 라이선스를 상속하지 않습니다** — `setup.sh` 가 템플릿의 `LICENSE` 를 제거합니다. 이 프로젝트를 외부에 공개할 계획이면 라이선스를 **명시적으로 선택해 추가**하세요.
