@@ -73,7 +73,7 @@ fi
 # ─── 2. .template → 실제 파일 (sed 치환) ───
 #
 # AGENTS.md 가 정본이고 CLAUDE.md 는 `@AGENTS.md` 한 줄이다.
-# (사내 표준: 30_Decisions/Tech_Decisions/agent-rules-canonical-file.md —
+# (사내 표준: swk-wiki `swk-wiki-vault/30_Decisions/agent-rules-canonical-file.md` —
 #  Codex·Cursor·Copilot 도 AGENTS.md 를 네이티브로 읽으므로 한 파일이 전 툴에 닿는다.)
 
 for template in AGENTS.md.template CLAUDE.md.template README.md.template .gitignore.template; do

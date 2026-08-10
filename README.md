@@ -71,4 +71,4 @@ SPACEWALK 의 **웹 풀스택 표준 스타터** — Next.js(App Router) 프로�
 
 ---
 
-관련: swk-wiki `40_Playbooks/new-project-bootstrap.md` (무엇을·왜) · 이 레포 (어떻게·최신 버전)
+관련: swk-wiki `swk-wiki-vault/40_Playbooks/new-project-bootstrap.md` (무엇을·왜) · 이 레포 (어떻게·최신 버전)
