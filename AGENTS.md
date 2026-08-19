@@ -21,12 +21,14 @@
 `.claude/` 는 **두 곳에서 동시에 산다** — 지금 이 세션의 설정이면서, 앞으로 만들 모든 프로젝트에
 실릴 payload 다. 여기서 훅·deny·rules 를 고치면 **이후 생성되는 모든 프로젝트가 바뀐다.**
 
-- `.claude/rules/*.md` 의 frontmatter `paths:` 는 **자동 로드되지 않는다.** 2026-08-20 이 박스
-  (CC 2.1.235)에서 양성·음성·메타 대조로 실측했다 — `paths:` 매칭 파일을 Read 해도 주입되지 않았고,
-  같은 헤드리스 조건에서 `CLAUDE.md` 는 주입됐다(즉 프로브가 아니라 기능이 없는 것). 회사 정본도
-  같다: swk-wiki `40_Playbooks/_System/agent-rules/instruction-placement.md` §0.
-  → 그래서 `AGENTS.md.template` 이 두 rules 파일을 **명시 링크**한다. 링크도 훅도 없는 rules 는
-  아무도 안 읽는 죽은 파일이 된다. rules 를 더하면 링크도 같이 더한다.
+- `.claude/rules/*.md` 의 frontmatter `paths:` 는 **자동 로드된다.** 2026-08-20 재실측
+  (CC 2.1.235, 격리 저장소에 고유 마커를 심어 도구별 3-way 대조) — `paths:` 매칭 파일을
+  `Read`·`Edit` 하면 전문이 주입되고, 비매칭 파일에서는 안 뜬다. 정본 = swk-wiki
+  `40_Playbooks/_System/agent-rules/instruction-placement.md` §0.
+  🔴 **단 `Bash` 에는 안 걸린다** — `cat`·`sed` 로 읽고 고치면 영영 안 뜬다.
+  🔴 **`globs:` 는 스코프가 무시되고 상시 로드된다** — 쓰지 마라. 항상 `paths:` 다.
+  → 그래서 `AGENTS.md.template` 은 rules 를 링크로도 가리킨다(Codex 처럼 이 메커니즘이
+  없는 하네스와 `cat` 편집 경로를 위한 이중 안전망).
 - `.claude/settings.json` 의 deny 는 `git commit`·`git push` 를 막는다. 의도된 게이트다
   (커밋·푸시는 사람이 트리거한다). 우회하지 말고 사람에게 넘긴다.
 

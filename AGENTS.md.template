@@ -53,6 +53,6 @@ Before any Next.js work, find and read the relevant doc in `node_modules/next/di
 
 강제할 규칙 = `.claude/hooks/` · `.claude/settings.json`(deny) / 맥락 지식 = `.claude/skills/` / 항상 켜진 짧은 지침 = 이 파일.
 
-경로별 상세 규칙은 **자동 로드되지 않으므로 여기서 링크한다** — `src/` 를 만지면 [`.claude/rules/src.md`](.claude/rules/src.md), 테스트를 만지면 [`.claude/rules/tests.md`](.claude/rules/tests.md) 를 먼저 읽는다. (frontmatter `paths:` 는 아무것도 하지 않는다. 링크도 훅도 없는 rules 파일 = 죽은 파일.)
+경로별 상세 규칙은 `paths:` 로 **자동 주입된다**(`Read`·`Edit`·`Write` 로 매칭 파일을 만질 때). 🔴 `Bash`(`cat`·`sed`)에는 안 걸리고 Codex 에도 없으므로, 그 경로를 위해 여기서도 링크한다 — `src/` 는 [`.claude/rules/src.md`](.claude/rules/src.md), 테스트는 [`.claude/rules/tests.md`](.claude/rules/tests.md). 🔴 rules 프론트매터는 **항상 `paths:`** 다. `globs:` 는 스코프가 무시되고 상시 로드된다.
 
 이 파일에 쓴 문장은 **요청**이고, 훅에 쓴 것만 **보장**이다.
