@@ -42,7 +42,7 @@ SPACEWALK 의 **웹 풀스택 표준 스타터** — Next.js(App Router) 프로�
 | `AGENTS.md.template` | 항상 켜진 짧은 프로젝트 지침. Next 마커 섹션(`BEGIN:nextjs-agent-rules`)은 **번들 docs 를 읽으라는 지시** |
 | `.claude/settings.json` | deny 16개 + 훅 배선 + 플러그인 선언 |
 | `.claude/hooks/` | **강제되는 것** — 아래 3개 |
-| `.claude/rules/` | 경로별 자동 규칙 (`src/**`, 테스트) |
+| `.claude/rules/` | 경로별 상세 규칙 (소스·테스트) — **자동 로드 아님.** `AGENTS.md` 가 링크해서 읽힌다 |
 | `.claude/skills/code-review/` | Rob Pike 단순성 진단 (맥락에 따라 자동 발동) |
 | `.claude/commands/` | `/dev` `/build` `/lint` `/test` `/setup-env` |
 
