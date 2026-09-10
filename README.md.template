@@ -71,7 +71,6 @@ cp .env.example .env.local
 | `AGENTS.md` | 항상 켜진 짧은 프로젝트 지침 (Next 마커 섹션 = 번들 docs 를 읽으라는 지시) |
 | `.claude/settings.json` | deny 규칙 + 훅 배선 + 플러그인 선언 |
 | `.claude/hooks/` | **강제되는 것** — 타입체크 피드백 · 시크릿 사전차단 · 턴 종료 검증 게이트 |
-| `.claude/rules/` | 경로별 자동 규칙 (`src/**`, 테스트) |
 | `.claude/skills/` | `code-review` — Rob Pike 단순성 진단 (맥락에 따라 자동 발동) |
 | `.claude/commands/` | `/dev` `/build` `/lint` `/test` `/setup-env` |
 
