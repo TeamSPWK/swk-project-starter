@@ -3,8 +3,12 @@ name: CI
 on:
   push:
     branches: [main]
+    # 문서만 바뀐 변경에는 돌지 않는다(2026-09-25 cho 지시). 재포함 = 코드가 읽는 문서.
+    paths-ignore: ["**/*.md", "**/*.mdx", "docs/**"]
   pull_request:
     branches: [main]
+    # 문서만 바뀐 변경에는 돌지 않는다(2026-09-25 cho 지시). 재포함 = 코드가 읽는 문서.
+    paths-ignore: ["**/*.md", "**/*.mdx", "docs/**"]
 
 jobs:
   verify:
